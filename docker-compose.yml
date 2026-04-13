@@ -1,0 +1,31 @@
+services:
+  api:
+    build: .
+    container_name: product-api
+    ports:
+      - "5000:80"
+    depends_on:
+      - sqlserver
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:80
+      - Jwt__Key=ThisIsMySuperSecretKey1234567890
+      - Jwt__Issuer=ProductAPI
+      - Jwt__Audience=ProductAPI
+      - ConnectionStrings__DefaultConnection=Server=sqlserver,1433;Database=ProductDb;User=sa;Password=Password@123;TrustServerCertificate=True
+    restart: always
+
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: sqlserver
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=YourStrong@Pass123
+    ports:
+      - "1433:1433"
+    volumes:
+      - sql_data:/var/opt/mssql
+    restart: always
+
+volumes:
+  sql_data:
