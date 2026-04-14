@@ -18,11 +18,14 @@ public class AuthController : ControllerBase
     [HttpPost("login")]
     public IActionResult Login(string username, string password)
     {
-       
+        if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
+            throw new ArgumentException("Username and password are required");
+
         if (username != "admin" || password != "123")
-            return Unauthorized();
+            return Unauthorized(new { message = "Invalid credentials" });
 
         var token = GenerateToken(username);
+
         return Ok(new { token });
     }
 

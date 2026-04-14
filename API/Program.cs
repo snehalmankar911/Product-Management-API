@@ -94,9 +94,6 @@ if (!app.Environment.IsDevelopment())
 
 app.UseAuthentication();
 app.UseAuthorization();
-
-
-//app.MapGet("/", () => "API is running ");
 app.MapControllers();
 
 using (var scope = app.Services.CreateScope())
