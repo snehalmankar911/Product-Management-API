@@ -12,7 +12,7 @@ services:
       - Jwt__Key=ThisIsMySuperSecretKey1234567890
       - Jwt__Issuer=ProductAPI
       - Jwt__Audience=ProductAPI
-      - ConnectionStrings__DefaultConnection=Server=sqlserver,1433;Database=ProductDb;User=sa;Password=Password@123;TrustServerCertificate=True
+      - ConnectionStrings__DefaultConnection=Server=sqlserver,1433;Database=ProductDb;User=sa;Password=YourStrong@Pass123;TrustServerCertificate=True
     restart: always
 
   sqlserver:

@@ -18,7 +18,7 @@ public class AuthController : ControllerBase
     [HttpPost("login")]
     public IActionResult Login(string username, string password)
     {
-        // Dummy user validation (for now)
+       
         if (username != "admin" || password != "123")
             return Unauthorized();
 

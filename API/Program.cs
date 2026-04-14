@@ -96,7 +96,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 
-app.MapGet("/", () => "API is running ");
+//app.MapGet("/", () => "API is running ");
 app.MapControllers();
 
 using (var scope = app.Services.CreateScope())
@@ -104,5 +104,20 @@ using (var scope = app.Services.CreateScope())
     var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
     db.Database.Migrate();  
 }
+
+app.UseExceptionHandler("/error");
+
+app.Map("/error", (HttpContext context) =>
+{
+    var exception = context.Features
+        .Get<Microsoft.AspNetCore.Diagnostics.IExceptionHandlerFeature>()?.Error;
+
+    return exception switch
+    {
+        KeyNotFoundException => Results.NotFound(new { message = exception.Message }),
+        ArgumentException => Results.BadRequest(new { message = exception.Message }),
+        _ => Results.Problem("Internal server error")
+    };
+});
 
 app.Run();
